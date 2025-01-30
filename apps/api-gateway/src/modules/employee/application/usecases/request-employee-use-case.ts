@@ -1,5 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
+import { CreateEmployeeDTO } from '../../infra/validators/dtos/create-employee-dto';
 
 @Injectable()
 export class RequestEmployeeUseCase {
@@ -7,16 +8,31 @@ export class RequestEmployeeUseCase {
     @Inject('EMPLOYEE_SERVICE') private employeeService: ClientProxy,
   ) {}
 
-  async createEmployee(name: string, position: string, salary: number) {
-    const data = this.employeeService.send('create_employee', {
-      name,
-      position,
-      salary,
-    });
-    return { status: 'success', data };
+  async createEmployee(employeeData: CreateEmployeeDTO) {
+    console.log('🚀 Enviando mensagem para Employee Service:', employeeData);
+    console.log({data: employeeData})
+    try {
+      const response = this.employeeService
+        .send({ pattern: 'create_employee' }, { data: employeeData })
+
+      return response;
+    } catch (e) {
+      console.error('❌ Erro ao enviar mensagem para Employee Service:', e);
+      return { status: 'error', message: e.message };
+    }
   }
 
   async getEmployee(id: string) {
-    return this.employeeService.send('get_employee', id);
+    try {
+      const response = this.employeeService.send(
+        { pattern: 'get_employee' },
+        { data: id },
+      );
+
+      return response;
+    } catch (e) {
+      console.error('❌ Erro ao buscar funcionário:', e);
+      return { status: 'error', message: e.message };
+    }
   }
 }

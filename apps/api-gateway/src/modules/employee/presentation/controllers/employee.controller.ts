@@ -1,7 +1,6 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { Controller, Get, Param, Post } from '@nestjs/common';
+import { EventPattern, Payload } from '@nestjs/microservices';
 import { RequestEmployeeUseCase } from '../../application/usecases/request-employee-use-case';
-import { CreateEmployeeAdapter } from '../../infra/adapters/create-employee-adapter';
-import { CreateEmployeeDTO } from '../../infra/validators/dtos/create-employee-dto';
 
 @Controller('employees')
 export class EmployeeController {
@@ -10,13 +9,20 @@ export class EmployeeController {
   ) {}
 
   @Post()
-  async createEmployee(@Body() employeeData: CreateEmployeeDTO) {
-    const employee = CreateEmployeeAdapter.toEntity(employeeData);
-    return this.requestEmployeeUseCase.createEmployee(
-      employee.name,
-      employee.position,
-      employee.salary,
-    );
+  @EventPattern('create_employee')
+  async createEmployee(
+    @Payload() payload: { name: string; position: string; salary: number },
+  ) {
+    console.log('📩 Evento recebido no Employee Service:', payload);
+
+    if (!payload?.name || !payload?.position || !payload?.salary) {
+      throw new Error('❌ Dados inválidos recebidos.');
+    }
+
+    return {
+      status: 'created',
+      employee: await this.requestEmployeeUseCase.createEmployee(payload),
+    };
   }
 
   @Get(':id')
