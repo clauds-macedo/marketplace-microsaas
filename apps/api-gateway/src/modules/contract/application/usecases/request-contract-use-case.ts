@@ -9,12 +9,12 @@ export class RequestContractUseCase {
   ) {}
 
   async createContract(employee: CreateEmployeeDTO) {
-    console.log(
-      '🚀 Enviando evento de criação de contrato para Contract Service:',
-      employee,
-    );
     try {
-      return this.contractService.send('create_employee', employee);
+      console.log(
+        '🚀 Enviando evento de criação de contrato para Contract Service:',
+        employee,
+      );
+      this.contractService.emit('create_contract', employee);
     } catch (e) {
       console.error('❌ Erro ao enviar mensagem para Contract Service:', e);
       return { status: 'error', message: e.message };
@@ -24,7 +24,7 @@ export class RequestContractUseCase {
   async getContract(employeeId: string) {
     console.log('📩 Solicitando contrato para funcionário:', employeeId);
     try {
-      return this.contractService.send('get_contract', employeeId);
+      return this.contractService.emit('get_contract', employeeId);
     } catch (e) {
       console.error('❌ Erro ao buscar contrato no Contract Service:', e);
       return { status: 'error', message: e.message };

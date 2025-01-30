@@ -1,5 +1,5 @@
 import { Controller, Logger } from '@nestjs/common';
-import { MessagePattern, Payload } from '@nestjs/microservices';
+import { EventPattern, MessagePattern, Payload } from '@nestjs/microservices';
 import { CreateContractUseCase } from '../../domain/usecases/create-contract-use-case';
 import { GetContractUseCase } from '../../domain/usecases/get-contract-use-case';
 
@@ -12,11 +12,13 @@ export class ContractController {
     private readonly getContractUseCase: GetContractUseCase,
   ) {}
 
-  @MessagePattern('create_employee')
+  @EventPattern('create_employee')
   async createContract(
     @Payload()
     payload: {
-      data: { id: string; name: string; position: string };
+      id: string;
+      name: string;
+      position: string;
     },
   ) {
     this.logger.log(
@@ -24,9 +26,9 @@ export class ContractController {
     );
 
     const contract = await this.createContractUseCase.execute(
-      payload.data.id,
-      payload.data.name,
-      payload.data.position,
+      payload.id,
+      payload.name,
+      payload.position,
     );
 
     this.logger.log(`✅ Contrato gerado: ${JSON.stringify(contract)}`);
@@ -38,10 +40,8 @@ export class ContractController {
     this.logger.log(
       `📩 Pedido de contrato recebido: ${JSON.stringify(payload)}`,
     );
-    const contract = await this.getContractUseCase.execute(
-      payload,
-    );
-    console.log(contract, 'contract')
+    const contract = await this.getContractUseCase.execute(payload);
+    console.log(contract, 'contract');
     return contract ? { status: 'found', contract } : { status: 'not_found' };
   }
 }

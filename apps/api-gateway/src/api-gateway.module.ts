@@ -13,7 +13,7 @@ import { EmployeeController } from './modules/employee/presentation/controllers/
         transport: Transport.RMQ,
         options: {
           urls: ['amqp://localhost:5672'],
-          queue: 'employee_queue',
+          queue: 'general_queue',
           queueOptions: { durable: false },
         },
       },

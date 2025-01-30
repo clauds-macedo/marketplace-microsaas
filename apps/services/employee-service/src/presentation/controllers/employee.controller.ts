@@ -1,5 +1,5 @@
 import { Controller } from '@nestjs/common';
-import { MessagePattern } from '@nestjs/microservices';
+import { EventPattern, MessagePattern } from '@nestjs/microservices';
 import { CreateEmployeeUseCase } from '../../domain/usecases/create-employee-use-case';
 import { GetEmployeeUseCase } from '../../domain/usecases/get-employee-use-case';
 
@@ -10,7 +10,7 @@ export class EmployeeController {
     private readonly getEmployeeUseCase: GetEmployeeUseCase,
   ) {}
 
-  @MessagePattern('create_employee')
+  @EventPattern('create_employee')
   async createEmployee(data: {
     name: string;
     position: string;

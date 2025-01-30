@@ -1,5 +1,5 @@
 import { Controller, Get, Param, Post } from '@nestjs/common';
-import { MessagePattern, Payload } from '@nestjs/microservices';
+import { Payload } from '@nestjs/microservices';
 import { RequestEmployeeUseCase } from '../../application/usecases/request-employee-use-case';
 
 @Controller('employees')
@@ -9,7 +9,6 @@ export class EmployeeController {
   ) {}
 
   @Post()
-  @MessagePattern('create_employee')
   async createEmployee(
     @Payload() payload: { name: string; position: string; salary: number },
   ) {
