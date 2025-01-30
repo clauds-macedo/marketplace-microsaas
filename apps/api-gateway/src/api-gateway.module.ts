@@ -1,25 +1,24 @@
 import { Module } from '@nestjs/common';
-import { IEmployeeRepository } from './modules/employee/domain/repositories/employee-repository';
-import { CreateEmployeeUseCase } from './modules/employee/domain/usecases/create-employee-use-case';
-import { GetEmployeeUseCase } from './modules/employee/domain/usecases/get-employee-use-case';
-import { EmployeeRepository } from './modules/employee/infra/repositories/employee-repository';
+import { ClientsModule, Transport } from '@nestjs/microservices';
+import { RequestEmployeeUseCase } from './modules/employee/application/usecases/request-employee-use-case';
 import { EmployeeController } from './modules/employee/presentation/controllers/employee.controller';
 
 @Module({
-  providers: [
-    EmployeeRepository,
-    {
-      provide: CreateEmployeeUseCase,
-      useFactory: (repo: IEmployeeRepository) =>
-        new CreateEmployeeUseCase(repo),
-      inject: [EmployeeRepository],
-    },
-    {
-      provide: GetEmployeeUseCase,
-      useFactory: (repo: IEmployeeRepository) => new GetEmployeeUseCase(repo),
-      inject: [EmployeeRepository],
-    },
+  imports: [
+    ClientsModule.register([
+      {
+        name: 'EMPLOYEE_SERVICE',
+        transport: Transport.RMQ,
+        options: {
+          urls: ['amqp://localhost:5672'],
+          queue: 'employee_queue',
+          queueOptions: { durable: false },
+        },
+      },
+    ]),
   ],
   controllers: [EmployeeController],
+  providers: [RequestEmployeeUseCase],
 })
+
 export class ApiGatewayModule {}
