@@ -1,15 +1,16 @@
-import { Controller, Get, Param, Post } from '@nestjs/common';
-import { EventPattern, Payload } from '@nestjs/microservices';
+import { Controller, Get, Inject, Param, Post } from '@nestjs/common';
+import { ClientProxy, MessagePattern, Payload } from '@nestjs/microservices';
 import { RequestEmployeeUseCase } from '../../application/usecases/request-employee-use-case';
 
 @Controller('employees')
 export class EmployeeController {
   constructor(
+    @Inject('EMPLOYEE_SERVICE') private employeeService: ClientProxy,
     private readonly requestEmployeeUseCase: RequestEmployeeUseCase,
   ) {}
 
   @Post()
-  @EventPattern('create_employee')
+  @MessagePattern('create_employee')
   async createEmployee(
     @Payload() payload: { name: string; position: string; salary: number },
   ) {

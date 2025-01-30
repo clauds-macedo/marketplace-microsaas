@@ -5,7 +5,7 @@ import { GetEmployeeUseCase } from '../../domain/usecases/get-employee-use-case'
 
 @Controller()
 export class EmployeeController {
-  constructor(
+  constructor(    
     private readonly createEmployeeUseCase: CreateEmployeeUseCase,
     private readonly getEmployeeUseCase: GetEmployeeUseCase,
   ) {}

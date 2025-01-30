@@ -1,5 +1,5 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { ClientProxy } from '@nestjs/microservices';
+import { ClientProxy, EventPattern } from '@nestjs/microservices';
 import { CreateEmployeeDTO } from '../../infra/validators/dtos/create-employee-dto';
 
 @Injectable()
@@ -8,14 +8,13 @@ export class RequestEmployeeUseCase {
     @Inject('EMPLOYEE_SERVICE') private employeeService: ClientProxy,
   ) {}
 
+  @EventPattern('create_employee')
   async createEmployee(employeeData: CreateEmployeeDTO) {
     console.log('🚀 Enviando mensagem para Employee Service:', employeeData);
-    console.log({data: employeeData})
     try {
-      const response = this.employeeService
-        .send({ pattern: 'create_employee' }, { data: employeeData })
+      this.employeeService.emit('create_employee', employeeData);
 
-      return response;
+      return { employeeData };
     } catch (e) {
       console.error('❌ Erro ao enviar mensagem para Employee Service:', e);
       return { status: 'error', message: e.message };
@@ -24,10 +23,7 @@ export class RequestEmployeeUseCase {
 
   async getEmployee(id: string) {
     try {
-      const response = this.employeeService.send(
-        { pattern: 'get_employee' },
-        { data: id },
-      );
+      const response = this.employeeService.emit('get_employee', id);
 
       return response;
     } catch (e) {
