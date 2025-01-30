@@ -1,4 +1,4 @@
-import { Contract } from '../../domain/entities/Contract';
+import { Contract } from '../../domain/entities/contract';
 import { IContractRepository } from '../repositories/contract-repository';
 
 export class CreateContractUseCase {

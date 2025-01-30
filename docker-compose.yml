@@ -39,3 +39,16 @@ services:
     volumes:
       - ./apps/services/employee-service:/usr/src/app
       - /usr/src/app/node_modules
+
+  contract-service:
+    build: ./apps/services/contract-service
+    container_name: contract-service
+    restart: always
+    depends_on:
+      - rabbitmq
+    environment:
+      - RABBITMQ_URL=amqp://rabbitmq:5672
+    command: yarn start:dev
+    volumes:
+      - ./apps/services/contract-service:/usr/src/app
+      - /usr/src/app/node_modules

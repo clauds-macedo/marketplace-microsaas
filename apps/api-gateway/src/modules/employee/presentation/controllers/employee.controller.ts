@@ -19,10 +19,12 @@ export class EmployeeController {
     if (!payload?.name || !payload?.position || !payload?.salary) {
       throw new Error('❌ Dados inválidos recebidos.');
     }
+    const employee = await this.requestEmployeeUseCase.createEmployee(payload);
+    console.log(employee);
 
     return {
       status: 'created',
-      employee: await this.requestEmployeeUseCase.createEmployee(payload),
+      employee,
     };
   }
 

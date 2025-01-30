@@ -20,14 +20,14 @@ let RequestEmployeeUseCase = class RequestEmployeeUseCase {
         this.employeeService = employeeService;
     }
     async createEmployee(name, position, salary) {
-        return this.employeeService.send('create_employee', {
+        return this.employeeService.emit('create_employee', {
             name,
             position,
             salary,
         });
     }
     async getEmployee(id) {
-        return this.employeeService.send('get_employee', id);
+        return this.employeeService.emit('get_employee', id);
     }
 };
 exports.RequestEmployeeUseCase = RequestEmployeeUseCase;

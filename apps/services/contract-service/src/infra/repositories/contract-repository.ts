@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { Contract } from '../../domain/entities/Contract';
+import { Contract } from '../../domain/entities/contract';
 import { IContractRepository } from '../../domain/repositories/contract-repository';
 
 @Injectable()
@@ -8,6 +8,7 @@ export class ContractRepository implements IContractRepository {
 
   async create(contract: Contract): Promise<Contract> {
     this.contracts.push(contract);
+    console.log(this.contracts,  'contracts')
     return contract;
   }
 

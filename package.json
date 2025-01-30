@@ -15,6 +15,7 @@
     "start:api-gateway": "nest start api-gateway",
     "start:api-gateway:dev": "nest start api-gateway --watch",
     "start:employee-service:dev": "nest start employee-service --watch",
+    "start:contract-service:dev": "nest start contract-service --watch",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
     "test": "jest",
     "test:watch": "jest --watch",

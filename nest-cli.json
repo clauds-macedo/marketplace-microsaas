@@ -37,7 +37,7 @@
         "tsConfigPath": "apps/api-gateway/tsconfig.app.json"
       }
     },
-    "services/contract-service": {
+    "contract-service": {
       "type": "application",
       "root": "apps/services/contract-service",
       "entryFile": "main",
