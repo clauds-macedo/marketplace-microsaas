@@ -1,10 +1,24 @@
 import { Module } from '@nestjs/common';
-import { Services/employeeServiceController } from './services/employee-service.controller';
-import { Services/employeeServiceService } from './services/employee-service.service';
+import { CreateEmployeeUseCase } from './domain/usecases/create-employee-use-case';
+import { GetEmployeeUseCase } from './domain/usecases/get-employee-use-case';
+import { EmployeeRepository } from './infra/repository/employee-repository';
+import { EmployeeController } from './presentation/controllers/employee.controller';
 
 @Module({
-  imports: [],
-  controllers: [Services/employeeServiceController],
-  providers: [Services/employeeServiceService],
+  providers: [
+    EmployeeRepository,
+    {
+      provide: CreateEmployeeUseCase,
+      useFactory: (repo: EmployeeRepository) => new CreateEmployeeUseCase(repo),
+      inject: [EmployeeRepository],
+    },
+    {
+      provide: GetEmployeeUseCase,
+      useFactory: (repo: EmployeeRepository) => new GetEmployeeUseCase(repo),
+      inject: [EmployeeRepository],
+    },
+  ],
+  controllers: [EmployeeController],
 })
-export class Services/employeeServiceModule {}
+
+export class EmployeeServiceModule {}
