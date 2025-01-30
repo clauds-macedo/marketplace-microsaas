@@ -1,4 +1,4 @@
-  <h1>📌 Marketplace MicroSaaS</h1>
+  <h1>📌 MicroSaaS Architecture</h1>
 
   <p>Este repositório implementa uma arquitetura de MicroSaaS utilizando <strong>NestJS</strong>, com foco em escalabilidade, modularidade e desacoplamento entre os microsserviços. A comunicação entre os componentes do sistema é realizada via <strong>RabbitMQ</strong>, permitindo a orquestração eficiente dos fluxos de dados.</p>
 
