@@ -2,8 +2,8 @@ import { Module } from '@nestjs/common';
 import { IEmployeeRepository } from './modules/employee/domain/repositories/employee-repository';
 import { CreateEmployeeUseCase } from './modules/employee/domain/usecases/create-employee-use-case';
 import { GetEmployeeUseCase } from './modules/employee/domain/usecases/get-employee-use-case';
-import { EmployeeRepository } from './modules/employee/infra/repositories/EmployeeRepository';
-import { EmployeeController } from './modules/employee/presentation/employee.controller';
+import { EmployeeRepository } from './modules/employee/infra/repositories/employee-repository';
+import { EmployeeController } from './modules/employee/presentation/controllers/employee.controller';
 
 @Module({
   providers: [

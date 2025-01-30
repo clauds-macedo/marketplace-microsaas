@@ -1,6 +1,6 @@
 import { CreateEmployeeUseCase } from '../../domain/usecases/create-employee-use-case';
 import { GetEmployeeUseCase } from '../../domain/usecases/get-employee-use-case';
-import { EmployeeRepository } from '../../infra/repositories/EmployeeRepository';
+import { EmployeeRepository } from '../../infra/repositories/employee-repository';
 
 export const getEmployeeUseCase = new GetEmployeeUseCase(
   new EmployeeRepository(),
