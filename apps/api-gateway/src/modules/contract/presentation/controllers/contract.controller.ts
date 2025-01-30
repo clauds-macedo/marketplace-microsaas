@@ -1,24 +1,24 @@
-import { Controller, Get, Inject, Logger, Param, Patch } from '@nestjs/common';
-import { ClientProxy, MessagePattern } from '@nestjs/microservices';
+import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { MessagePattern } from '@nestjs/microservices';
+import { CreateEmployeeDTO } from '../../../employee/infra/validators/dtos/create-employee-dto';
+import { RequestContractUseCase } from '../../application/usecases/request-contract-use-case';
 
 @Controller('contracts')
 export class ContractController {
-  private readonly logger = new Logger(ContractController.name);
-
   constructor(
-    @Inject('CONTRACT_SERVICE') private readonly contractService: ClientProxy,
+    private readonly requestContractUseCase: RequestContractUseCase,
   ) {}
 
-  @Get(':employeeId')
+  @Post()
   @MessagePattern('create_employee')
-  async getContract(@Param('employeeId') employeeId: string) {
-    this.logger.log(`📩 Buscando contrato do funcionário: ${employeeId}`);
-    return this.contractService.emit('get_contract', employeeId);
+  async createContract(@Body() employeeData: CreateEmployeeDTO) {
+    console.log('🚀 Enviando solicitação de contrato:', employeeData);
+    return this.requestContractUseCase.createContract(employeeData);
   }
 
-  @Patch(':contractId/sign')
-  async signContract(@Param('contractId') contractId: string) {
-    this.logger.log(`🖊️ Assinando contrato: ${contractId}`);
-    return this.contractService.emit('sign_contract', contractId);
+  @Get(':employeeId')
+  async getContract(@Param('employeeId') employeeId: string) {
+    console.log('📩 Solicitando contrato para funcionário:', employeeId);
+    return this.requestContractUseCase.getContract(employeeId);
   }
 }

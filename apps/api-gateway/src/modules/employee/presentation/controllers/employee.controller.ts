@@ -1,11 +1,10 @@
-import { Controller, Get, Inject, Param, Post } from '@nestjs/common';
-import { ClientProxy, MessagePattern, Payload } from '@nestjs/microservices';
+import { Controller, Get, Param, Post } from '@nestjs/common';
+import { MessagePattern, Payload } from '@nestjs/microservices';
 import { RequestEmployeeUseCase } from '../../application/usecases/request-employee-use-case';
 
 @Controller('employees')
 export class EmployeeController {
   constructor(
-    @Inject('EMPLOYEE_SERVICE') private employeeService: ClientProxy,
     private readonly requestEmployeeUseCase: RequestEmployeeUseCase,
   ) {}
 
@@ -19,8 +18,8 @@ export class EmployeeController {
     if (!payload?.name || !payload?.position || !payload?.salary) {
       throw new Error('❌ Dados inválidos recebidos.');
     }
+
     const employee = await this.requestEmployeeUseCase.createEmployee(payload);
-    console.log(employee);
 
     return {
       status: 'created',
