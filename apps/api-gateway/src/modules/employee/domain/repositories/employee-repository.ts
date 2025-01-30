@@ -1,4 +1,4 @@
-import { Employee } from '../entities/Employee';
+import { Employee } from '../entities/employee';
 
 export interface IEmployeeRepository {
   create(employee: Employee): Promise<Employee>;

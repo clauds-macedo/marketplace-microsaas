@@ -8,11 +8,12 @@ export class RequestEmployeeUseCase {
   ) {}
 
   async createEmployee(name: string, position: string, salary: number) {
-    return this.employeeService.send('create_employee', {
+    const data = this.employeeService.send('create_employee', {
       name,
       position,
       salary,
     });
+    return { status: 'success', data };
   }
 
   async getEmployee(id: string) {

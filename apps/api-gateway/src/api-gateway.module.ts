@@ -20,5 +20,4 @@ import { EmployeeController } from './modules/employee/presentation/controllers/
   controllers: [EmployeeController],
   providers: [RequestEmployeeUseCase],
 })
-
 export class ApiGatewayModule {}

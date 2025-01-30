@@ -1,4 +1,4 @@
-import { Employee } from '../../domain/entities/Employee';
+import { Employee } from '../../domain/entities/employee';
 import { CreateEmployeeDTO } from '../validators/dtos/create-employee-dto';
 
 export class CreateEmployeeAdapter {

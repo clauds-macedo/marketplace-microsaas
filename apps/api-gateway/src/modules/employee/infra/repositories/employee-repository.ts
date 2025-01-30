@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { Employee } from '../../domain/entities/Employee';
+import { Employee } from '../../domain/entities/employee';
 import { IEmployeeRepository } from '../../domain/repositories/employee-repository';
 
 @Injectable()
