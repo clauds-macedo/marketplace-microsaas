@@ -13,7 +13,7 @@ services:
       RABBITMQ_DEFAULT_PASS: guest
 
   api-gateway:
-    build: ./api-gateway
+    build: ./apps/api-gateway
     container_name: api-gateway
     restart: always
     depends_on:
@@ -24,11 +24,11 @@ services:
       - RABBITMQ_URL=amqp://rabbitmq:5672
     command: npm run start:dev
     volumes:
-      - ./api-gateway:/usr/src/app
+      - ./apps/api-gateway:/usr/src/app
       - /usr/src/app/node_modules
 
   employee-service:
-    build: ./employee-service
+    build: ./apps/services/employee-service
     container_name: employee-service
     restart: always
     depends_on:
@@ -37,5 +37,5 @@ services:
       - RABBITMQ_URL=amqp://rabbitmq:5672
     command: npm run start:dev
     volumes:
-      - ./employee-service:/usr/src/app
+      - ./apps/services/employee-service:/usr/src/app
       - /usr/src/app/node_modules
