@@ -95,6 +95,3 @@
   <pre>
     docker exec -it rabbitmq bash -c "rabbitmqctl list_queues name messages_ready messages_unacknowledged"
   </pre>
-
-  <h2>🏆 Conclusão</h2>
-  <p>Este repositório demonstra a implementação de uma arquitetura de microsserviços, comunicados de forma assíncrona via <strong>RabbitMQ</strong>. O projeto exemplifica a escalabilidade e o desacoplamento entre os serviços, possibilitando uma fácil expansão e manutenção.</p>
